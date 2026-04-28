@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent } from 'react';
 
 type Task = {
   id: number;
@@ -8,14 +8,27 @@ type Task = {
 
 export default function App() {
   const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, title: "Plugga React", done: false },
-    { id: 2, title: "Läsa om props", done: true },
+    { id: 1, title: 'Plugga React', done: false },
+    { id: 2, title: 'Läsa om props', done: true },
   ]);
 
-  const [newTitle, setNewTitle] = useState<string>("");
+  const [newTitle, setNewTitle] = useState<string>('');
 
-  const handleAddTask = () => {
-    // Lägg till ny uppgift här
+  const handleAddTask = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (newTitle.trim() === ''){
+      return
+    }
+
+    const newTask: Task = {
+      id: tasks.length > 0 ? tasks[tasks.length - 1].id + 1 : + 1,
+      title: newTitle,
+      done: false,
+    };
+
+    setTasks([...tasks, newTask]);
+    setNewTitle('');
   };
 
   const handleToggleTask = (id: number) => {
@@ -27,7 +40,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div style={{ padding: '2rem' }}>
       <h1>Uppgiftslista</h1>
 
       <input
@@ -44,7 +57,7 @@ export default function App() {
         {tasks.map((task) => (
           <li key={task.id}>
             <span>
-              {task.title} - {task.done ? "Klar" : "Inte klar"}
+              {task.title} - {task.done ? 'Klar' : 'Inte klar'}
             </span>
             <button onClick={() => handleToggleTask(task.id)}>
               Växla status
