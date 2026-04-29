@@ -32,11 +32,29 @@ export default function App() {
   };
 
   const handleToggleTask = (id: number) => {
-    // Ändra done på rätt uppgift här
+
+    const toggleTask = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, done: !task.done };
+      }
+      return task;
+    });
+
+    setTasks(toggleTask);
   };
 
   const handleChangeTitle = (id: number) => {
-    // Ändra title på rätt uppgift här
+    const input = prompt('Set a new title: ');
+    if (!input || input.trim() === '') return;
+
+    const updateTitle = tasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, title: input };
+      }
+      return task;
+    });
+
+    setTasks(updateTitle);
   };
 
   return (
